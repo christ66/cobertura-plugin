@@ -4,12 +4,7 @@ import hudson.Extension;
 import hudson.FilePath;
 import hudson.Launcher;
 import hudson.Util;
-import hudson.model.Action;
-import hudson.model.BuildListener;
-import hudson.model.Result;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractItem;
-import hudson.model.AbstractProject;
+import hudson.model.*;
 import hudson.plugins.cobertura.renderers.SourceCodePainter;
 import hudson.plugins.cobertura.renderers.SourceEncoding;
 import hudson.plugins.cobertura.targets.CoverageMetric;
@@ -314,7 +309,7 @@ public class CoberturaPublisher extends Recorder {
      * Gets the directory where the Cobertura Report is stored for the given project.
      */
     /*package*/
-    static File[] getCoberturaReports(AbstractBuild<?, ?> build) {
+    static File[] getCoberturaReports(Run<?, ?> build) {
         return build.getRootDir().listFiles(COBERTURA_FILENAME_FILTER);
     }
 
@@ -322,7 +317,7 @@ public class CoberturaPublisher extends Recorder {
      * {@inheritDoc}
      */
     @Override
-    public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) 
+    public boolean perform(Run<?, ?> build, Launcher launcher, TaskListener listener)
             throws InterruptedException, IOException {
         Result threshold = onlyStable ? Result.SUCCESS : Result.UNSTABLE;
         if (build.getResult().isWorseThan(threshold)) {
@@ -331,9 +326,11 @@ public class CoberturaPublisher extends Recorder {
         }
 
         listener.getLogger().println("[Cobertura] Publishing Cobertura coverage report...");
-        final FilePath[] moduleRoots = build.getModuleRoots();
-        final boolean multipleModuleRoots =
-                moduleRoots != null && moduleRoots.length > 1;
+//        final FilePath[] moduleRoots = build;
+//        AbstractBuild b;
+//        b.getModuleRoot();
+        final FilePath moduleRoot = new FilePath(build.getRootDir());
+        final boolean multipleModuleRoots = moduleRoot.length() > 1;
         final FilePath moduleRoot = multipleModuleRoots ? build.getWorkspace() : build.getModuleRoot();
         final File buildCoberturaDir = build.getRootDir();
         FilePath buildTarget = new FilePath(buildCoberturaDir);

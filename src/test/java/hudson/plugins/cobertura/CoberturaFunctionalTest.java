@@ -24,7 +24,7 @@
 package hudson.plugins.cobertura;
 
 import hudson.Launcher;
-import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import hudson.model.BuildListener;
 import hudson.model.FreeStyleProject;
 import hudson.plugins.cobertura.renderers.SourceEncoding;
@@ -75,7 +75,7 @@ public class CoberturaFunctionalTest {
         }
 
         @Override
-        public boolean perform(AbstractBuild<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
+        public boolean perform(Run<?, ?> build, Launcher launcher, BuildListener listener) throws InterruptedException, IOException {
             firstRunning.signal();
             firstBlocked.block();
             return true;

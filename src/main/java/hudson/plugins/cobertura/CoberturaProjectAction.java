@@ -61,7 +61,7 @@ public class CoberturaProjectAction extends Actionable implements ProminentProje
      * @return Value for property 'lastResult'.
      */
     public CoberturaBuildAction getLastResult() {
-        for (AbstractBuild<?, ?> b = getLastBuildToBeConsidered(); b != null; b = BuildUtils.getPreviousNotFailedCompletedBuild(b)) {
+        for (Run<?, ?> b = getLastBuildToBeConsidered(); b != null; b = BuildUtils.getPreviousNotFailedCompletedBuild(b)) {
             if (b.getResult() == Result.FAILURE || (b.getResult() != Result.SUCCESS && onlyStable))
                 continue;
             CoberturaBuildAction r = b.getAction(CoberturaBuildAction.class);
@@ -70,7 +70,7 @@ public class CoberturaProjectAction extends Actionable implements ProminentProje
         }
         return null;
     }
-    private AbstractBuild<?, ?> getLastBuildToBeConsidered(){
+    private Run<?, ?> getLastBuildToBeConsidered(){
         return onlyStable ? project.getLastStableBuild() : project.getLastSuccessfulBuild();
     }
      /**
@@ -79,7 +79,7 @@ public class CoberturaProjectAction extends Actionable implements ProminentProje
      * @return Value for property 'lastResult'.
      */
     public Integer getLastResultBuild() {
-        for (AbstractBuild<?, ?> b = getLastBuildToBeConsidered(); b != null; b = BuildUtils.getPreviousNotFailedCompletedBuild(b)) {
+        for (Run<?, ?> b = getLastBuildToBeConsidered(); b != null; b = BuildUtils.getPreviousNotFailedCompletedBuild(b)) {
             if (b.getResult() == Result.FAILURE || (b.getResult() != Result.SUCCESS && onlyStable))
                 continue;
             CoberturaBuildAction r = b.getAction(CoberturaBuildAction.class);

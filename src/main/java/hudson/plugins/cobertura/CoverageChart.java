@@ -78,7 +78,8 @@ public class CoverageChart
 	protected static boolean isZoomCoverageChart( Chartable chartable )
 	{
 		if( chartable == null ) return false;
-		CoberturaPublisher cp = (CoberturaPublisher) chartable.getOwner().getProject().getPublishersList().get( CoberturaPublisher.DESCRIPTOR );
+//		CoberturaPublisher cp = (CoberturaPublisher) chartable.getOwner().getProject().getPublishersList().get( CoberturaPublisher.DESCRIPTOR );
+		CoberturaPublisher cp = (CoberturaPublisher) chartable.getOwner().getParent().;
 		boolean zoomCoverageChart = false;
 		if( cp != null )
 		{

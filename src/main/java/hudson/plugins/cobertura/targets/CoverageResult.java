@@ -1,6 +1,6 @@
 package hudson.plugins.cobertura.targets;
 
-import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import hudson.model.Api;
 import hudson.model.Item;
 import hudson.model.Run;
@@ -78,7 +78,7 @@ public class CoverageResult implements Serializable, Chartable {
 
     private String relativeSourcePath;
 
-    public AbstractBuild<?, ?> owner = null;
+    public Run<?, ?> owner = null;
 
     public CoverageResult(CoverageElement elementType, CoverageResult parent, String name) {
         this.element = elementType;
@@ -396,7 +396,7 @@ public class CoverageResult implements Serializable, Chartable {
      *
      * @return Value for property 'owner'.
      */
-    public AbstractBuild<?, ?> getOwner() {
+    public Run<?, ?> getOwner() {
         return owner;
     }
 
@@ -405,7 +405,7 @@ public class CoverageResult implements Serializable, Chartable {
      *
      * @param owner Value to set for property 'owner'.
      */
-    public void setOwner(AbstractBuild<?, ?> owner) {
+    public void setOwner(Run<?, ?> owner) {
         this.owner = owner;
         aggregateResults.clear();
         for (CoverageResult child : children.values()) {
@@ -436,7 +436,7 @@ public class CoverageResult implements Serializable, Chartable {
             if (owner == null) {
                 return null;
             }
-            AbstractBuild<?, ?> prevBuild = BuildUtils.getPreviousNotFailedCompletedBuild(owner);
+            Run<?, ?> prevBuild = BuildUtils.getPreviousNotFailedCompletedBuild(owner);
             if (prevBuild == null) {
                 return null;
             }
@@ -478,7 +478,7 @@ public class CoverageResult implements Serializable, Chartable {
             return;
         }
 
-        AbstractBuild<?, ?> build = getOwner();
+        Run<?, ?> build = getOwner();
         Calendar t = build.getTimestamp();
 
         if (req.checkIfModified(t, rsp)) {
